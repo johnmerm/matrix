@@ -4,6 +4,7 @@ from mat import Mat
 from vec import Vec
 
 from solver import solve
+from matutil import rowdict2mat
 
 ## Task 1
 def move2board(v): 
@@ -47,7 +48,22 @@ def make_equations(x1, x2, w1, w2):
 
 
 ## Task 3
-H = ...
+w =Vec({(a, b) for a in {'y1', 'y2', 'y3'} for b in {'x1', 'x2', 'x3'}} ,
+       {('y1','x1') : 1}) 
+
+rowlist = list(make_equations(358,36,0,0))
+rowlist+=(list(make_equations(329,597,0,1)))
+rowlist+=(list(make_equations(592,157,1,0)))
+rowlist+=(list(make_equations(580,483,1,1)))
+
+rowlist.append(w)
+L = rowdict2mat(rowlist)
+b= Vec(set(range(9)),{8:1})
+
+h= solve(L,b)
+
+H = Mat([{'y1','y2','y3'},{'x1','x2','x3'}], h.f)
+
 
 ## Task 4
 def mat_move2board(Y):
