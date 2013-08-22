@@ -205,11 +205,11 @@ def is_superfluous(L, i):
     u = solve(M,L[i])
     
     r = M*u - L[i]
-    
-    if (r*r > 1e-14) :
-        return False
-    else:
+    rr = r*r
+    if rr == 0 or  (isinstance(rr, float) and rr <= 1e-14):
         return True
+    else:
+        return False
     
     
     
@@ -239,6 +239,8 @@ def is_independent(L):
     >>> is_independent(vlist[5:])
     True
     '''
+    if len(L) <2:
+        return True
     for i in range(len(L)):
         if (is_superfluous(L, i)):
             return False
@@ -275,7 +277,9 @@ def superset_basis(S, L):
             M = coldict2mat(L)
             u = solve(M,v)
             r = M*u -v
-            if (r*r >1e-14):
+            if (r*r == 0) :
+                T.append(v)
+            elif (r*r >1e-14):
                 T.append(v)
     return T
 
@@ -296,6 +300,8 @@ def exchange(S, A, z):
         >>> exchange(S, A, z) == Vec({0, 1, 2, 3},{0: 0, 1: 0, 2: 1, 3: 0})
         True
     '''
+    if not is_independent(A+[z]):
+        return None
     wSelect = list(S)
     wSelect = [w for w in S if not w in A]
     
