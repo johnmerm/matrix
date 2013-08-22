@@ -79,18 +79,17 @@ def morph(S, B):
 ## Problem 4
 # Please express each solution as a list of vectors (Vec instances)
 
-row_space_1 = [list2vec(l) for l in [[1,2,0],[0,2,1]]]
-col_space_1 = [list2vec(l) for l in [[1,0],[0,1]]]
+row_space_1 = [Vec({0,1,2},{0:1,1:2}), Vec({0,1,2},{1:2,2:1})]
+col_space_1 = [Vec({0,1},{0:1}), Vec({0,1},{1:1})]
 
-row_space_2 = [list2vec(l) for l in [[1,4,0,0],[0,2,2,0],[0,0,1,1]]]
-col_space_2 = [list2vec(l) for l in [[1,0,0],[0,1,0],[0,0,1]]]
+row_space_2 = [Vec({0,1,2,3},{0:1,2:4}), Vec({0,1,2,3},{1:2,2:2}), Vec({0,1,2,3},{2:1,3:1})]
+col_space_2 = [Vec({0,1,2},{0:1}), Vec({0,1,2},{1:1}), Vec({0,1,2},{2:1})]
 
-row_space_3 = [list2vec(l) for l in [[1]]]
-col_space_3 = [list2vec(l) for l in [[1,2,3]]]
+row_space_3 = [Vec({0},{0:1})]
+col_space_3 = [Vec({0,1,2},{0:1,1:2,2:3})]
 
-row_space_4 = [list2vec(l) for l in [[1,0],[2,1]]]
-col_space_4 = [list2vec(l) for l in [[1,2,3],[0,1,4]]]
-
+row_space_4 = [Vec({0,1},{0:1}), Vec({0,1},{1:1})]
+col_space_4 = [Vec({0,1,2},{0:1,1:2,2:3}), Vec({0,1,2},{1:1,2:4})]
 
 
 ## Problem 5
