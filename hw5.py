@@ -190,6 +190,8 @@ def is_invertible(M):
     >>> is_invertible(M)
     True
     '''
+    if len(M.D[0])!=len(M.D[1]):
+        return False
     L = list(mat2coldict(M).values())
     return rank(L) == len(L)
 
