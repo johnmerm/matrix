@@ -4,7 +4,7 @@ from mat import Mat
 from vec import Vec
 
 from solver import solve
-from matutil import rowdict2mat
+from matutil import rowdict2mat, mat2coldict, coldict2mat
 
 ## Task 1
 def move2board(v): 
@@ -64,6 +64,9 @@ h= solve(L,b)
 
 H = Mat([{'y1','y2','y3'},{'x1','x2','x3'}], h.f)
 
+#(X_pts, colors) = file2mat('board.png', ('x1','x2','x3'))
+#Y_pts = H * X_pts
+
 
 ## Task 4
 def mat_move2board(Y):
@@ -76,4 +79,14 @@ def mat_move2board(Y):
           whiteboard plane (the point of intersection with the whiteboard plane 
           of the line through the origin and q).
     '''
-    pass
+    domain = {'y1','y2','y3'}
+    assert domain == Y.D[0]
+    
+    coldict = mat2coldict(Y)
+    for i in Y.D[1]:
+        coldict[i] = move2board(coldict[i])
+    
+    return coldict2mat(coldict)
+
+#Y_board = mat_move2board(Y_pts)
+#mat2display(Y_board, colors, ('y1', 'y2', 'y3'),scale=100, xmin=None, ymin=None)
