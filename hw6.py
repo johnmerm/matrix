@@ -3,6 +3,7 @@
 
 from matutil import *
 from GF2 import one
+from vecutil import zero_vec,list2vec
 
 
 
@@ -53,13 +54,6 @@ def is_echelon(A):
         previous_row_pos = c_pos
     return True
                  
-def test_is_echelon():
-    if is_echelon([[2,1,0],[0,-4,0],[0,0,1]]): print("OK 1")
-    if not is_echelon([[2,1,0],[-4,0,0],[0,0,1]]): print("OK 2")
-    if not is_echelon([[2,1,0],[0,3,0],[1,0,1]]): print("OK 3")
-    if is_echelon([[1,1,1,1,1],[0,2,0,1,3],[0,0,0,5,3]]): print("OK 4")
-    if is_echelon([[1,1,1,1,1],[0,2,0,1,3],[0,0,0,5,3],[0,0,0,0,0]]): print("OK 5")
-    if not is_echelon([[1,1,1,1,1],[0,2,0,1,3],[0,0,0,5,3],[0,0,0,0,0],[0,0,0,0,1]]): print("OK 6")
 
 
 
@@ -97,51 +91,69 @@ def echelon_solve(rowlist, label_list, b):
     >>> echelon_solve(U_rows, cols, b_list)
     Vec({'B', 'C', 'A', 'D', 'E'},{'B': 0, 'C': one, 'A': one})
     '''
-    pass
-
+    x=zero_vec(rowlist[0].D)
+    for i in reversed(range(len(rowlist))):
+        row = rowlist[i]
+        j = next((l for l in row.f.keys() if row[l]!=0 ),-1) # first non-zero element of row
+        res = row*x
+        x[j] = (b[i] - res) / row[j]
+    return x
 
 
 ## Problem 6
-rowlist = [ ... ]    # Provide as a list of Vec instances
-label_list = [ ... ] # Provide as a list
-b = [ ... ]          # Provide as a list
+D = {'A','B','C','D'}
+rowlist = [ Vec(D, {'A':one,'B':one,        'D':one }),
+            Vec(D, {        'B':one                 }),
+            Vec(D, {                'C':one         }),
+            Vec(D, {                        'D':one })]    # Provide as a list of Vec instances
+label_list = ['A','B','C','D','E'] # Provide as a list
+b = [ one,0,one,0 ]          # Provide as a list
 
 
 
 ## Problem 7
-null_space_rows_a = {...} # Put the row numbers of M from the PDF
+null_space_rows_a = {3,4} # Put the row numbers of M from the PDF
 
 
 
 ## Problem 8
-null_space_rows_b = {...}
+null_space_rows_b = {4}
 
+def project_along(b, a):
+    sigma = (b*a)/(a*a) if a*a != 0 else 0
+    return sigma * a
+
+def project(b, a): 
+    b=  list2vec(b)
+    a= list2vec(a)
+    sa = project_along(b, a)
+    return (sa,b - sa )
 
 
 ## Problem 9
 # Write each vector as a list
-closest_vector_1 = [...]
-closest_vector_2 = [...]
-closest_vector_3 = [...]
+closest_vector_1 = [8/5,16/5]
+closest_vector_2 = [0,1,0]
+closest_vector_3 = [3,2,1,-4]
 
 
 
 ## Problem 10
 # Write each vector as a list
 
-project_onto_1 = [...]
-projection_orthogonal_1 = [...]
+project_onto_1 = [2,0]
+projection_orthogonal_1 = [0,1]
 
-project_onto_2 = [...]
-projection_orthogonal_2 = [...]
+project_onto_2 = [-1/6,-1/3,1/6]
+projection_orthogonal_2 = [7/6,4/3,23/6]
 
-project_onto_3 = [...]
-projection_orthogonal_3 = [...]
+project_onto_3 = [1,1,4]
+projection_orthogonal_3 = [0,0,0]
 
 
 
 ## Problem 11
-norm1 = ...
-norm2 = ...
-norm3 = ...
+norm1 = 3
+norm2 = 4
+norm3 = 1
 
