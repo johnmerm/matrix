@@ -1,5 +1,5 @@
 from vec import Vec
-
+from math import sqrt
 def project_along(b, v, eps = 1E-20):
     '''
     Project b along v.
@@ -66,3 +66,6 @@ def aug_orthogonalize(vlist):
         sigma_vecs.append(Vec(D, sigmadict))
     return vstarlist, sigma_vecs
 
+def orthonormalize(vlist):
+    Lstar = orthogonalize(vlist)
+    return [l/sqrt(l*l) for l in Lstar]

@@ -18,9 +18,7 @@ def basis(vlist):
     Output:
         - a list of linearly independent Vecs with equal span to vlist
     '''
-    pass
-
-
+    return [ v for v in orthogonalize(vlist) if v*v>1E-20 ]
 
 ## Problem 2
 def subset_basis(vlist):
@@ -30,8 +28,10 @@ def subset_basis(vlist):
     Output:
         - linearly independent subset of vlist with the same span as vlist
     '''
-    pass
+    return [ v for v in vlist]
 
+vlist = [ list2vec(l) for l in [[2, 4, 3, 5, 0], [4,-2,-5, 4, 0], [-8, 14, 21,-2, 0],[-1,-4,-4, 0, 0], [-2,-18,-19,-6, 0], [5,-3, 1,-5, 2]] ]
+tglist =[ list2vec(l) for l in [[2, 4, 3, 5, 0], [4,-2,-5, 4, 0], [-1,-4,-4, 0, 0], [5,-3, 1,-5, 2]] ]
 
 
 ## Problem 3
@@ -48,7 +48,7 @@ def orthogonal_vec2rep(Q, b):
         >>> orthogonal_vec2rep(Q, b) == Vec({0, 1},{0: 8, 1: 4})
         True
     '''
-    pass
+    return Q*b
 
 
 
@@ -68,9 +68,12 @@ def orthogonal_change_of_basis(A, B, a):
         >>> orthogonal_change_of_basis(A, B, a) == Vec({0, 1, 2},{0: 8, 1: 2, 2: 6})
         True
     '''
-    pass
+    return A*a*B
 
-
+A = Mat(({0, 1, 2}, {0, 1, 2}), {(0, 1): 0, (1, 2): 0, (0, 0): 1, (2, 0): 0, (1, 0): 0, (2, 2): 1, (0, 2): 0, (2, 1): 0, (1, 1): 1})
+B = Mat(({0, 1, 2}, {0, 1, 2}), {(0, 1): 0, (1, 2): 0, (0, 0): 2, (2, 0): 0, (1, 0): 0, (2, 2): 2, (0, 2): 0, (2, 1): 0, (1, 1): 2})
+a = Vec({0, 1, 2},{0: 4, 1: 1, 2: 3})
+print(orthogonal_change_of_basis(A, B, a) == Vec({0, 1, 2},{0: 8, 1: 2, 2: 6}))
 
 ## Problem 5
 def orthonormal_projection_orthogonal(W, b):
@@ -86,7 +89,7 @@ def orthonormal_projection_orthogonal(W, b):
         >>> orthonormal_projection_orthogonal(W, b) == Vec({0, 1, 2},{0: 0, 1: 0, 2: 4})
         True
     '''
-    pass
+    return W*b*W.transpose()
 
 
 
