@@ -66,6 +66,3 @@ def aug_orthogonalize(vlist):
         sigma_vecs.append(Vec(D, sigmadict))
     return vstarlist, sigma_vecs
 
-def orthonormalize(vlist):
-    Lstar = orthogonalize(vlist)
-    return [l/sqrt(l*l) for l in Lstar]
