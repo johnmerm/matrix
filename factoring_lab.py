@@ -100,7 +100,8 @@ def find_a_and_b(v, roots, N):
 
 ## Task 5
 
-N = 367160330145890434494322103
+'''
+N = 2461799993978700679
 primeset = primes(10000)
 (roots,rowlist) = find_candidates(N, primeset)
 M = echelon.transformation_rows(rowlist,sorted(primeset, reverse=True))
@@ -117,7 +118,7 @@ for v in reversed(M):
         print ("b="+str(b))
         break
     
-
+'''
 
 
 smallest_nontrivial_divisor_of_2461799993978700679 = 1230926561

@@ -46,15 +46,26 @@ def is_echelon(A):
         >>> is_echelon([[0,1,1],[0,1,0],[0,0,1]])
         False
     '''
-    previous_row_pos = -1
-    for r in A:
-        c_pos = next((r.index(l) for l in r if l!=0 ),len(r))
-        if previous_row_pos >=c_pos:
+    previous_row_pos = 2**64
+    for r in reversed(A):
+        c_pos = next((r.index(l) for l in r if l!=0 ),2**64)
+        if c_pos == 2**64 and previous_row_pos == 2**64:
+            continue
+        if previous_row_pos <=c_pos:
             return False
         previous_row_pos = c_pos
     return True
-                 
 
+# M1 = [[0,0,0],[0,0,0],[0,0,0]]
+# M2 = [[1,0,0],[0,1,0],[0,1,0]]
+# M3 = [[0]*4,[1]*4]
+# M4 = [[1,0,0,0,0,0,0,0], [0,1,1,1,1,1,1,1],[0,0,1,1,1,0,1,0],[0,0,0,0,0,1,1,0]]
+# M5 = [[1]]
+# M6 = [[0]]                 
+# 
+# for M in [M1,M2,M3,M4,M5,M6]:
+#     print(is_echelon(M))
+#     print(listlist2mat(M))
 
 
 ## Problem 3
@@ -91,13 +102,37 @@ def echelon_solve(rowlist, label_list, b):
     >>> echelon_solve(U_rows, cols, b_list)
     Vec({'B', 'C', 'A', 'D', 'E'},{'B': 0, 'C': one, 'A': one})
     '''
-    x=zero_vec(rowlist[0].D)
+    x=zero_vec(set(label_list))
     for i in reversed(range(len(rowlist))):
         row = rowlist[i]
-        j = next((l for l in row.f.keys() if row[l]!=0 ),-1) # first non-zero element of row
+        j = next((l for l in label_list if row[l]!=0 ),None) # first non-zero element of row
+        if j==None:
+            continue
+        
         res = row*x
         x[j] = (b[i] - res) / row[j]
     return x
+
+cols = ['A', 'B', 'C', 'D', 'E']
+D = set(cols)
+
+U_rows = [Vec(D,{'E': one, 'D': one, 'A': 0, 'C': 0, 'B': one}), Vec(D,{'E': 0, 'D': one, 'A': 0, 'C': 0, 'B': 0}), Vec(D,{'E': 0, 'D': 0, 'A': one, 'C': one, 'B': 0}), Vec(D,{'E': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0})]
+b_list = [0, 0, one, 0]
+u = echelon_solve(U_rows, cols, b_list)
+print([u_row*u for u_row in U_rows])
+print(b_list)
+
+U_rows=[Vec(D,{'E': one, 'D': one, 'A': one, 'C': one, 'B': one}), Vec(D,{'E': one, 'D': 0, 'A': 0, 'C': 0, 'B': one}), Vec(D,{'E': one, 'D': 0, 'A': 0, 'C': one, 'B': 0}), Vec(D,{'E': one, 'D': one, 'A': 0, 'C': 0, 'B': 0})]
+b_list = [0, one, 0, one]
+u=echelon_solve(U_rows, cols, b_list)
+print([u_row*u for u_row in U_rows])
+print(b_list)
+
+U_rows = [Vec(D, {'A':one, 'C':one}), Vec(D, {'C':one, 'E':one}), Vec(D,{'D':one})]
+b_list = [one, one, one]
+u = echelon_solve(U_rows, cols, b_list)
+print([u_row*u for u_row in U_rows])
+print(b_list)
 
 
 ## Problem 6
@@ -106,8 +141,11 @@ rowlist = [ Vec(D, {'A':one,'B':one,        'D':one }),
             Vec(D, {        'B':one                 }),
             Vec(D, {                'C':one         }),
             Vec(D, {                        'D':one })]    # Provide as a list of Vec instances
-label_list = ['A','B','C','D','E'] # Provide as a list
-b = [ one,0,one,0 ]          # Provide as a list
+label_list = ['A','B','C','D'] # Provide as a list
+
+M=listlist2mat([[one,0,0,0],[one,one,0,0],[one,0,one,0],[one,0,one,one]])
+g = [ one,0,one,0 ]          # Provide as a list
+b = [one,one,0,0]            #b= M*list2vec(g)
 
 
 
